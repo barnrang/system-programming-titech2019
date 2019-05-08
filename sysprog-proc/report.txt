@@ -1,0 +1,103 @@
+# [注意]
+# 下記の # で始まるコメント行を変更（修正，削除）しないこと．
+# 課題Nの回答は，### ExerciseN ### のコメント行の下の領域に記述して下さい．
+
+### ID ### 学籍番号を「NN_NNNNN」のように書いて下さい
+
+### Email ### mメールアドレスを書いて下さい
+
+### Name ### 氏名を「東工 太郎」のように書いて下さい
+
+### Exercise1 ### 課題1
+# 実行結果をまるごとペーストせよ．
+In main():  pid=74740, ppid=74371
+In child(): pid=74741, ppid=74740
+In child(): Process 74741 terminated.
+In main():  Process 74740 terminated.
+
+
+### Exercise2 ### 課題2
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+mysh[3]% echo foo bar
+foo bar
+mysh[4]% sleep 1
+mysh[5]% ls
+Makefile        input.txt       mysh-log.o      mysh-parse.y    mysh.h          testddd
+fork0           lex.yy.c        mysh-main.c     mysh-scan.l     mysh.o          y.tab.c
+fork0.c         lex.yy.o        mysh-main.o     mysh.1.c        output.txt      y.tab.h
+fork0.o         mysh            mysh-node.c     mysh.2.c        report.txt      y.tab.o
+input           mysh-log.c      mysh-node.o     mysh.c          test.txt        zsdasd
+
+### Exercise3 ### 課題3
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+mysh[6]% echo foo | rev
+oof
+mysh[7]% ls -l | head -n 5
+total 10344
+-rwxr-xr-x@ 1 barnrang  staff     1090 May  7 07:03 Makefile
+-rwxr-xr-x  1 barnrang  staff     8728 May  8 00:08 fork0
+-rwxr-xr-x@ 1 barnrang  staff      738 May  7 07:03 fork0.c
+-rw-r--r--  1 barnrang  staff     1464 May  8 00:08 fork0.o
+
+
+### Exercise4 ### 課題4
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+mysh[8]% rev /usr/share/dict/words | cat /usr/share/dict/words - | sort | uniq -c | grep 2 | wc -l
+    1091
+
+mysh[11]% ls | sort | head -n 5
+Makefile
+fork0
+fork0.c
+fork0.o
+input
+
+### Exercise5 ### 課題5
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+mysh[4]% ls | sort | head -n 5 > input.txt
+mysh[5]% cat input.txt
+Makefile
+fork0
+fork0.c
+fork0.o
+input
+
+mysh[6]% sort -r < input.txt | rev > output.txt
+mysh[7]% cat output.txt
+tupni
+o.0krof
+c.0krof
+0krof
+elifekaM
+
+### ExerciseA ### 発展課題A
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+
+
+### ExerciseB ### 発展課題B
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+
+
+### ExerciseC ### 発展課題C
+# 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
+# 未完部分がある場合は明示せよ．
+
+
+
+### Comment ### 感想（採点対象外，好きに書いて下さい．）
+
+
+
+### END ###

@@ -1,0 +1,5 @@
+Makefile
+fork0
+fork0.c
+fork0.o
+input
