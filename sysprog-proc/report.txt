@@ -3,22 +3,28 @@
 # 課題Nの回答は，### ExerciseN ### のコメント行の下の領域に記述して下さい．
 
 ### ID ### 学籍番号を「NN_NNNNN」のように書いて下さい
+16B00133
 
 ### Email ### mメールアドレスを書いて下さい
+thumwanit.n.aa@m.titech.ac.jp
 
 ### Name ### 氏名を「東工 太郎」のように書いて下さい
+Thumwanit Napat
+タムワニット ナパット
 
 ### Exercise1 ### 課題1
 # 実行結果をまるごとペーストせよ．
-In main():  pid=74740, ppid=74371
-In child(): pid=74741, ppid=74740
-In child(): Process 74741 terminated.
-In main():  Process 74740 terminated.
 
+In main():  pid=91985, ppid=76444
+In child(): pid=91986, ppid=91985
+In child(): Process 91986 terminated.
+In main():  Process 91985 terminated.
 
 ### Exercise2 ### 課題2
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
 # 未完部分がある場合は明示せよ．
+
+テストキット正しく実行しました
 
 mysh[3]% echo foo bar
 foo bar
@@ -29,6 +35,12 @@ fork0           lex.yy.c        mysh-main.c     mysh-scan.l     mysh.o          
 fork0.c         lex.yy.o        mysh-main.o     mysh.1.c        output.txt      y.tab.h
 fork0.o         mysh            mysh-node.c     mysh.2.c        report.txt      y.tab.o
 input           mysh-log.c      mysh-node.o     mysh.c          test.txt        zsdasd
+mysh[7]% make report.zip
+make: `report.zip' is up to date.
+
+
+テストキット正しく実行しました
+
 
 ### Exercise3 ### 課題3
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
@@ -42,6 +54,8 @@ total 10344
 -rwxr-xr-x  1 barnrang  staff     8728 May  8 00:08 fork0
 -rwxr-xr-x@ 1 barnrang  staff      738 May  7 07:03 fork0.c
 -rw-r--r--  1 barnrang  staff     1464 May  8 00:08 fork0.o
+
+テストキット正しく実行しました
 
 
 ### Exercise4 ### 課題4
@@ -57,6 +71,10 @@ fork0
 fork0.c
 fork0.o
 input
+
+テストキット正しく実行しました
+
+
 
 ### Exercise5 ### 課題5
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
@@ -78,26 +96,55 @@ c.0krof
 0krof
 elifekaM
 
+
+テストキット正しく実行しました
+
+
 ### ExerciseA ### 発展課題A
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
 # 未完部分がある場合は明示せよ．
 
+mysh[1]% echo foo; ls | head -n 4 ; echo bar
+foo
+Makefile
+aa.txt
+aaa.txt
+fd
+bar
+
+テストキット正しく実行しました
 
 
 ### ExerciseB ### 発展課題B
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
 # 未完部分がある場合は明示せよ．
 
+mysh[2]% true && echo succeeded
+succeeded
+mysh[3]% echo gg | false || echo ffff
+ffff
+
+テストキット正しく実行しました
 
 
 ### ExerciseC ### 発展課題C
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
 # 未完部分がある場合は明示せよ．
 
+mysh[1]% true && (rev /usr/share/dict/words; cat /usr/share/dict/words) | sort | uniq -c | grep 2 | wc -l > count.txt
+mysh[2]% cat count.txt  
+    1091
+
+mysh[1]% ( echo foo ; echo bar )
+foo
+bar
+
+テストキット正しく実行しました
 
 
 ### Comment ### 感想（採点対象外，好きに書いて下さい．）
-
+難しくて楽しかったです。
+どうやってキーボードの⬆️⬇️⬅️➡️キーを使えるようになりますか？
 
 
 ### END ###

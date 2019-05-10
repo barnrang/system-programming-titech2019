@@ -8,7 +8,7 @@
 
 /** Run a node and obtain an exit status. */
 
-void execute_task(char *argv[]){
+pid_t execute_task(char *argv[]){
     fflush(stdout);
     pid_t pid = fork();
     if (pid == 0)
@@ -16,13 +16,14 @@ void execute_task(char *argv[]){
         fflush(stdout);
         execvp(argv[0], argv);
         exit(errno);
-    } 
+    } else return pid;
 }
 
 int get_exit_status(pid_t *pid){
     int status, return_status=0;
-    if (pid == NULL) wait(&status);
-    else *pid = wait(&status);
+    // if (pid == NULL) wait(&status);
+    // else *pid = wait(&status);
+    waitpid(*pid, &status,WUNTRACED);
     LOG("PID %d", pid); 
     if (WIFEXITED(status)) {
         LOG("status %d", WEXITSTATUS(status));
@@ -43,8 +44,8 @@ int invoke_node(node_t *node) {
             LOG("node->argv[%d]: \"%s\"", i, node->argv[i]);
             if (i == 0)
             {
-                execute_task(node->argv);
-                return get_exit_status(NULL);
+                pid_t pid_proc = execute_task(node->argv);
+                return get_exit_status(&pid_proc);
             }
         }
         return 0;
@@ -54,8 +55,6 @@ int invoke_node(node_t *node) {
         LOG("node->rhs: %s", inspect_node(node->rhs));
 
         int fd[2];
-        pid_t return_pid1, return_pid2;
-        int return_status1, return_status2;
         pipe(fd);
 
         if ((pid1 = fork()) == 0) {
@@ -72,15 +71,16 @@ int invoke_node(node_t *node) {
             exit(invoke_node(node->rhs));
         }
         else {
+            int return_status1=0, return_status2=0;
             close(fd[1]);
             close(fd[0]);
             LOG("Before close pipe1");
-            return_status1 = get_exit_status(&return_pid1);
+            return_status1 = get_exit_status(&pid1);
             LOG("Before close pipe2");
-            return_status2 = get_exit_status(&return_pid2);
+            return_status2 = get_exit_status(&pid2);
 
             // Return status of RHS
-            return return_pid2 == pid2 ? return_status2 : return_status1;
+            return return_status2;
         }
 
     case N_REDIRECT_IN:     /* foo < bar */
@@ -88,31 +88,34 @@ int invoke_node(node_t *node) {
     case N_REDIRECT_APPEND: /* foo >> bar */
         LOG("node->filename: %s", node->filename);
         if (node->type == N_REDIRECT_IN) {
-            int save_stdin = dup(0);
-            int fd = open(node->filename, O_RDONLY);
-            if (fd == -1) {
-                perror("File error");
-                return 1;
-            }
-            dup2(fd, 0);
-            return_status = invoke_node(node->lhs);
-            close(fd);
-            dup2(save_stdin, 0);
-            close(save_stdin);
+            pid_t pid=0;
+            if ((pid == fork()) == 0){
+                int fd = open(node->filename, O_RDONLY);
+                if (fd == -1) {
+                    perror("File error");
+                    return 1;
+                }
+                dup2(fd, 0);
+                close(fd);
+                exit(invoke_node(node->lhs));
+            } else return_status = get_exit_status(&pid);
         } else {
-            int save_stdout = dup(1);
-            int fd;
-            if (node->type == N_REDIRECT_OUT) fd = open(node->filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
-            else fd = open(node->filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
-            if (fd == -1) {
-                perror("File error");
-                return 1;
+            pid_t pid=0;
+            if ((pid == fork()) == 0) {
+                int fd;
+                if (node->type == N_REDIRECT_OUT) fd = open(node->filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
+                else fd = open(node->filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
+                if (fd == -1) {
+                    perror("File error");
+                    return 1;
+                }
+                dup2(fd, 1);
+                close(fd);
+                exit(invoke_node(node->lhs));
+            } else{
+                return_status = get_exit_status(&pid);
             }
-            dup2(fd, 1);
-            close(fd);
-            return_status = invoke_node(node->lhs);
-            dup2(save_stdout, 1);
-            close(save_stdout);
+            
         }
         return return_status;
 
@@ -142,7 +145,7 @@ int invoke_node(node_t *node) {
             int return_status;
             return_status = invoke_node(node->lhs);
             exit(return_status);
-        } else return get_exit_status(NULL);
+        } else return get_exit_status(&pid);
 
     default:
         return 0;
