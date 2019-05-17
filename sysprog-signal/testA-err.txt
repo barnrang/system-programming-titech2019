@@ -1,0 +1,6 @@
+pty.rb:43:in `sysread': Interrupt
+	from pty.rb:43:in `block (2 levels) in <main>'
+	from pty.rb:42:in `loop'
+	from pty.rb:42:in `block in <main>'
+	from pty.rb:9:in `spawn'
+	from pty.rb:9:in `<main>'
