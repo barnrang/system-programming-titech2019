@@ -3,31 +3,59 @@
 # 課題Nの回答は，### ExerciseN ### のコメント行の下の領域に記述して下さい．
 
 ### ID ### 学籍番号を「NN_NNNNN」のように書いて下さい
+16_00133
 
 ### Email ### mメールアドレスを書いて下さい
+thumwanit.n.aa@m.titech.ac.jp
 
 ### Name ### 氏名を「東工 太郎」のように書いて下さい
+Thumwanit Napat
+タムワニット　ナパット
 
 ### Exercise1 ### 課題1
 # ^Cを打っても止まらない様子を実演し，その入出力結果（^Cを明示すること）をペーストせよ．
 
-
+^Cmuri.^Cmuri^Cmuri..^Cmuri.*..........^\Quit: 3
 
 ### Exercise2 ### 課題2
 # 実行を適当なところで止め，実行結果をペーストせよ．
 
-
+....*....*....*.....*....*.....*....*.....*....*..^\Quit: 3
 
 ### Exercise3 ### 課題3
 # 実装完了したことを示すための適当なコマンドの実行結果をまるごと（myshプロンプト含めて）ペーストせよ．
 # （ただしログは mysh2 -q で省略してね）
 # 未完部分がある場合は明示せよ．
 
-
+mysh[1]% echo bar
+bar
+🔥
+mysh[2]% ./count 5 A
+A-3 A-2 A-1 🔥
+mysh[3]% ./count 10 B &
+mysh[4]% ./count 5 C &
+mysh[5]% echo foo
+foo
+🔥
+mysh[6]% C-3 C-2 C-1 🔥
+B-3 B-2 B-1 🔥
+^D
 
 ### ExerciseA ### 発展課題A
 # 実装完了したことを示すための適当な入出力結果をペーストせよ．
 # （ただしログは mysh2 -q で省略してね）
+
+mysh[1]% ./count 10 A
+^Zmysh[2]% 
+mysh[3]% echo Hello_World!
+Hello_World!
+🔥
+mysh[4]% fg
+A-3 A-2 A-1 🔥
+mysh[5]% ./count 10 B
+^Zmysh[6]% bg
+mysh[7]% B-3 B-2 B-1 🔥
+^D
 
 
 ### Comment ### 感想（採点対象外，好きに書いて下さい．）

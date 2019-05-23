@@ -6,6 +6,7 @@
 #include <sys/wait.h> /* wait */
 #include <unistd.h>   /* fork */
 #include <stdlib.h>
+#include <string.h>
 
 /* うまく表示されない場合は，下記の 1 を 0 に切り替えて下さい */
 #if 1
@@ -29,18 +30,29 @@ void async_handler(int sig){
 }
 
 pid_t pid;
+pid_t pause_pid=0;
 
 void pause_handler(int sig){
   // int pid = getpid();
   LOG("%d", pid);
+  pause_pid = pid;
   kill(pid, SIGSTOP);
 }
 
+bool check_fg_bg(char* argv[]){
+    return ((strcmp(argv[0], "bg") == 0) || 
+        (strcmp(argv[0], "fg") == 0));
+}
 
 int invoke_node(node_t *node) {
     LOG("Invoke: %s", inspect_node(node));
     // pid_t pid;
 
+    LOG("paused pid = %d", pause_pid);
+
+    bool is_fg_or_bg = check_fg_bg(node->argv);
+
+    if (strcmp(node->argv[0], "bg") == 0) node->async=true;
 
     /* & 付きで起動しているか否か */
     if (node->async) {
@@ -49,7 +61,12 @@ int invoke_node(node_t *node) {
 
     /* 子プロセスの生成 */
     fflush(stdout);
-    pid = fork();
+    if (is_fg_or_bg) {
+        pid = pause_pid;
+        pause_pid = 0;
+        kill(pid, SIGCONT);
+    }
+    else pid = fork();
     if (pid == -1) {
         PERROR_DIE(node->argv[0]);
     }
@@ -64,7 +81,7 @@ int invoke_node(node_t *node) {
         /* 親プロセス側 */
 
         /* 子に独立したプロセスグループを割り振る */
-        if (setpgid(pid, pid) == -1) {
+        if (setpgid(pid, pid) == -1 && !is_fg_or_bg) {
             PERROR_DIE(NULL);
         }
 

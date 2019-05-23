@@ -3,10 +3,11 @@
 #include <unistd.h> /* write */
 
 void handler(int sig){
-  write(STDOUT_FILENO, "無理", 1);
+  write(STDOUT_FILENO, "muri", 4);
 }
 
 void alarm_handler(int sig){
+  alarm(5);
   write(STDOUT_FILENO, "*", 1);
 }
 
