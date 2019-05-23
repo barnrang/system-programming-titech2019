@@ -30,12 +30,10 @@ void async_handler(int sig){
 }
 
 pid_t pid;
-pid_t pause_pid=0;
 
 void pause_handler(int sig){
   // int pid = getpid();
   LOG("%d", pid);
-  pause_pid = pid;
   kill(pid, SIGSTOP);
 }
 
@@ -47,8 +45,6 @@ bool check_fg_bg(char* argv[]){
 int invoke_node(node_t *node) {
     LOG("Invoke: %s", inspect_node(node));
     // pid_t pid;
-
-    LOG("paused pid = %d", pause_pid);
 
     bool is_fg_or_bg = check_fg_bg(node->argv);
 
@@ -62,8 +58,6 @@ int invoke_node(node_t *node) {
     /* 子プロセスの生成 */
     fflush(stdout);
     if (is_fg_or_bg) {
-        pid = pause_pid;
-        pause_pid = 0;
         kill(pid, SIGCONT);
     }
     else pid = fork();
@@ -110,7 +104,6 @@ int invoke_node(node_t *node) {
                   }
               }
               return pid;
-          // kill(pid, SIGTSTP);
           }
         }
 
