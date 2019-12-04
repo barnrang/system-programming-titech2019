@@ -1,0 +1,92 @@
+# [注意]
+# 下記の # で始まるコメント行を変更（修正，削除）しないこと．
+# 課題Nの回答は，### ExerciseN ### のコメント行の下の領域に記述して下さい．
+
+### ID ### 学籍番号を「NN_NNNNN」のように書いて下さい
+16B00133
+### Email ### mメールアドレスを書いて下さい
+barnrangjp@gmail.com
+### Name ### 氏名を「東工 太郎」のように書いて下さい
+THUMWANIT NAPAT
+タムワニット　ナパット
+### Exercise1 ### 課題1
+# 完成させたmy-webclientからsimple-webserverに接続した際の実行結果をペーストせよ．
+
+barnrang@NAPATs-MacBook-Air sysprog-socket $ ./my-webclient
+<html><body><h1>Very Simple Web Server</h1>Hello. Your message is:
+<hr><pre>GET / HTTP/1.0
+Connection: close
+
+</pre><hr>Your connection is: IP address = 127.0.0.1, port = 51689
+</body></html>
+
+### Exercise2 ### 課題2
+# 改造したソースコードの解説(どの部分をどのように改造したか)と考察を記載せよ．
+
+まず、path == "/" かどうか確認して そのままか index.html にするか
+Method == "GET" であれば path を読んでファイル記述子を宣言する
+Error があれば Not found の html の内容を送る
+通常に読み込めば fgets で読んでバッファーに入れ、foutに送る
+そしてflushする
+
+GET じゃないと index.html を送る
+
+
+### Exercise3 ### 課題3
+# 改造したソースコードの解説と考察を記載せよ．
+
+Accept したら fork して子が session を呼ぶ
+親はゾンビを回収しないといけないが、wait 使ったらブロックしてしまうので
+signal(SIGCHLD, ...) で非同期に待たせた。
+
+
+### ExerciseA ### 発展課題A
+# telnetで接続した際の入出力結果をペーストせよ．また改造したソースコードの解説と考察を記載せよ．
+
+Trying ::1...
+telnet: connect to address ::1: Connection refused
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is '^]'.
+GET /this_file_not_exist.html HTTP/1.0
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 67
+
+<html><body><center><h1>404 Not Found!</h1></center></body></html>
+GET / HTTP/1.0
+Connection: close
+
+HTTP/1.1 200 OK
+Content-Type: text/html
+Content-Length: 306
+
+<html>
+<title>Taro's Home Page</title>
+<body>
+<center>
+<h1>* * Welcome to my homepage * *</h1>
+<hr>
+<br><br><marquee>yukkurisiteittene!</marquee><br><br><br>
+<!--<img src="test.jpg">-->
+<br><br><br><br><br>
+<hr>
+<address>Copyright (c)1997 TOKO Taro, All rights reserved.</address>
+</center></body>
+</html>
+Connection closed by foreign host.
+
+前の課題のコードを while で囲んで無限に反復させた。Connection: close の header 見つけたら返信した後 break することにした。
+コンテンツの長さは fseek を SEEK_END(ファイルの終点) までずらしてftell で位置(byte)を求める
+
+### ExerciseB ### 発展課題B
+# 自分が追加した機能の説明とその実装方法についての解説，および考察を記載せよ．
+
+未完成で jpeg 送り方分かりません。とりあえず binary として送っておきます (fread の rbで）
+
+### Comment ### 感想（採点対象外，好きに書いて下さい．）
+
+
+
+### END ###
