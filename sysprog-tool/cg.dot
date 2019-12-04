@@ -1,0 +1,5 @@
+strict digraph G {
+	main -> foo [label="2"]
+	foo -> bar [label="2"]
+	foo -> baz [label="2"]
+}
