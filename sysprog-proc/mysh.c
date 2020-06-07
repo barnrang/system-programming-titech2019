@@ -89,7 +89,7 @@ int invoke_node(node_t *node) {
         LOG("node->filename: %s", node->filename);
         if (node->type == N_REDIRECT_IN) {
             pid_t pid=0;
-            if ((pid == fork()) == 0){
+            if ((pid = fork()) == 0){
                 int fd = open(node->filename, O_RDONLY);
                 if (fd == -1) {
                     perror("File error");
@@ -101,7 +101,7 @@ int invoke_node(node_t *node) {
             } else return_status = get_exit_status(&pid);
         } else {
             pid_t pid=0;
-            if ((pid == fork()) == 0) {
+            if ((pid = fork()) == 0) {
                 int fd;
                 if (node->type == N_REDIRECT_OUT) fd = open(node->filename, O_WRONLY | O_CREAT | O_TRUNC, 0666);
                 else fd = open(node->filename, O_WRONLY | O_CREAT | O_APPEND, 0666);
